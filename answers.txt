@@ -1,0 +1,17 @@
+Task 2:
+q1. you get an index error
+q2. you receive the message ' This is not a legal move' and are asked to re enter a move.
+q3. The piece is moved off the board
+q4. Index out of range error
+q5. moving the piece off of the bottom or right of the board both produced index errors,
+	,moving it off the top made the piece disappear. Interestingly moving it off the left
+	generates a pre-set message, telling the user that it isn't a valid move, which would 
+	indicate that there is validation code for that move
+q6. CheckMoveIsLegal():
+
+Task 3:
+q1. GetMove
+
+Task 5:
+q1. The letter that represents the pieces colour and piece type
+q2. MakeMove
