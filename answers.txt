@@ -15,3 +15,13 @@ q1. GetMove
 Task 5:
 q1. The letter that represents the pieces colour and piece type
 q2. MakeMove
+
+Task 6:
+q1. make move 
+
+Task 7:
+q1. DisplayBoard()
+
+Task 8:
+Fixed value: A variable set in code by the programmer, that is never changed or edited in the program
+stepper

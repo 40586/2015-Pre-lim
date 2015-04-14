@@ -49,13 +49,13 @@ def DisplayBoard(Board):
   print()
   for RankNo in range(1, BOARDDIMENSION + 1):
     print("     _______________________")
-    print(RankNo, end="   ")
+    print('R{0}'.format(RankNo),end="  ")
     for FileNo in range(1, BOARDDIMENSION + 1):
       print("|" + Board[RankNo][FileNo], end="")
     print("|")
   print("     _______________________")
   print()
-  print("      1  2  3  4  5  6  7  8")
+  print("     F1 F2 F3 F4 F5 F6 F7 F8")
   print()
   print()    
 
@@ -130,7 +130,7 @@ def CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseT
   MoveIsLegal = True
   if (FinishFile == StartFile) and (FinishRank == StartRank):
     MoveIsLegal = False
-  elif (0 < FinishRank < 9) or (0 < FinishFile < 9): #Task 2
+  elif (0 > FinishRank > 9) or (0 > FinishFile > 9): #Task 2
     MoveIsLegal = False
   else:
     PieceType = Board[StartRank][StartFile][1]
@@ -217,16 +217,26 @@ def GetMove(StartSquare, FinishSquare): # Task 3
         print('Please enter both the FILE and RANK ')
       else:
         cont = True
+      if ( '0' > str(FinishSquare)[:1] > '9' ):
+        cont = False
+        print('Please enter a valid File (1-8)')
+      if ( '0' > str(FinishSquare)[1] > '9' ):# CHANGES HERE
+        cont = False
+        print('Please enter a valid File (1-8)')
       confirm = ConfirmMove(StartSquare, FinishSquare)
   return StartSquare, FinishSquare
 
 def MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn):
+  if Board[FinishRank][FinishFile] !=' ':
+    GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile)
   if WhoseTurn == "W" and FinishRank == 1 and Board[StartRank][StartFile][1] == "R":
     Board[FinishRank][FinishFile] = "WM"
     Board[StartRank][StartFile] = "  "
+    print('The White Redum has been promoted!') #Task 6
   elif WhoseTurn == "B" and FinishRank == 8 and Board[StartRank][StartFile][1] == "R":
     Board[FinishRank][FinishFile] = "BM"
     Board[StartRank][StartFile] = "  "
+    print('The Black Redum has been promoted!')#Task 6
   else:
     Board[FinishRank][FinishFile] = Board[StartRank][StartFile]
     Board[StartRank][StartFile] = "  "
@@ -247,6 +257,7 @@ def ConfirmMove(StartSquare, FinishSquare): #Task 4
   return confirm
 
 def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
+  Print = True
   PieceType = Board[StartRank][StartFile][1]
   PieceColour = Board[StartRank][StartFile][0]
   PieceType1 = Board[FinishRank][FinishFile][1]
@@ -267,6 +278,8 @@ def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
     PrintPieceColour = 'White'
   elif PieceColour == 'B':
     PrintPieceColour = 'Black'
+  else:
+    Print = False
   if PieceType1 == 'R':
     PrintPieceType1 = 'Redum'
   elif PieceType1 == 'S':
@@ -283,7 +296,10 @@ def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
     PrintPieceColour1 = 'White'
   elif PieceColour1 == 'B':
     PrintPieceColour1 = 'Black'
-  print('{0} {1} Takes {2} {3}'.format(PrintPieceType,PrintPieceColour,PrintPieceType1,PrintPieceColour1))
+  else:
+    Print = False
+  if Print == True:
+    print('{0} {1} Takes {2} {3}'.format(PrintPieceColour,PrintPieceType,PrintPieceColour1,PrintPieceType1))
     
 
 if __name__ == "__main__":
