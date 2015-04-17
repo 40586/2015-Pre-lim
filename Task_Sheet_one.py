@@ -203,26 +203,38 @@ def GetMove(StartSquare, FinishSquare): # Task 3
   while confirm == False:
     cont = False
     while cont == False:
-      StartSquare = int(input("Enter coordinates of square containing piece to move (file first): "))
-      temp = StartSquare // 10
-      if temp < 1:
-        print('Please enter both the FILE and RANK ')
-      else:
-        cont = True
+      try:
+        StartSquare = int(input("Enter coordinates of square containing piece to move (file first): "))
+        temp = StartSquare // 10
+        if temp < 1:
+          print('Please enter both the FILE and RANK ')
+        elif ( '0' > str(StartSquare)[:1] > '9' ):
+          cont = False
+          print('Please enter a valid File (1-8)')
+        elif ( '0' > str(StartSquare)[1:] > '9' ):
+          cont = False
+          print('Please enter a valid Rank (1-8)')
+        else:
+          cont = True
+      except ValueError:
+        print('Please enter a number')
     cont = False
     while cont == False:
-      FinishSquare = int(input("Enter coordinates of square to move piece to (file first): "))
-      temp = FinishSquare // 10
-      if temp < 1:
-        print('Please enter both the FILE and RANK ')
-      else:
-        cont = True
-      if ( '0' > str(FinishSquare)[:1] > '9' ):
-        cont = False
-        print('Please enter a valid File (1-8)')
-      if ( '0' > str(FinishSquare)[1] > '9' ):# CHANGES HERE
-        cont = False
-        print('Please enter a valid File (1-8)')
+      try:
+        FinishSquare = int(input("Enter coordinates of square to move piece to (file first): "))
+        temp = FinishSquare // 10
+        if temp < 1:
+          print('Please enter both the FILE and RANK ')
+        elif ( '0' > str(FinishSquare)[:1] > '9' ):
+          cont = False
+          print('Please enter a valid File (1-8)')
+        elif ( '0' > str(FinishSquare)[1:] > '9' ):
+          cont = False
+          print('Please enter a valid Rank (1-8)')
+        else:
+          cont = True
+      except ValueError:
+        print('Please enter a number')
       confirm = ConfirmMove(StartSquare, FinishSquare)
   return StartSquare, FinishSquare
 
@@ -300,41 +312,71 @@ def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
     Print = False
   if Print == True:
     print('{0} {1} Takes {2} {3}'.format(PrintPieceColour,PrintPieceType,PrintPieceColour1,PrintPieceType1))
-    
+
+def DisplayMenu():
+  print('''Main menu.
+1.Start new game
+2.Load existing game
+3.Play sample game
+4.View high scores
+5.Settings
+6.Quit Program
+''')
+
+def get_menu_selection():
+  cont = False
+  values = ['1','2','3','4','5','6']
+  while not cont:
+    value = input('Please make your choice: ')
+    if value in values:
+      cont = true
+    else:
+      print('Please make a valid choice!')
+  return value
+def play_game():
+  Board = CreateBoard() #0th index not used
+    StartSquare = 0 
+    FinishSquare = 0
+    PlayAgain = "Y"
+    while PlayAgain == "Y":
+      WhoseTurn = "W"
+      GameOver = False
+      SampleGame = GetTypeOfGame() #task one
+      if ord(SampleGame) >= 97 and ord(SampleGame) <= 122:
+        SampleGame = chr(ord(SampleGame) - 32)
+      InitialiseBoard(Board, SampleGame)
+      while not(GameOver):
+        DisplayBoard(Board)
+        DisplayWhoseTurnItIs(WhoseTurn)
+        MoveIsLegal = False
+        while not(MoveIsLegal):
+          StartSquare, FinishSquare = GetMove(StartSquare, FinishSquare)
+          StartRank = StartSquare % 10
+          StartFile = StartSquare // 10
+          FinishRank = FinishSquare % 10
+          FinishFile = FinishSquare // 10
+          MoveIsLegal = CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
+          if not(MoveIsLegal):
+            print("That is not a legal move - please try again")
+        GameOver = CheckIfGameWillBeWon(Board, FinishRank, FinishFile)
+        MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
+        if GameOver:
+          DisplayWinner(WhoseTurn)
+        if WhoseTurn == "W":
+          WhoseTurn = "B"
+        else:
+          WhoseTurn = "W"
+      PlayAgain = input("Do you want to play again (enter Y for Yes)? ")
+      if ord(PlayAgain) >= 97 and ord(PlayAgain) <= 122:
+        PlayAgain = chr(ord(PlayAgain) - 32)
+
+
+
+
+def make_slection(value):
+  
 
 if __name__ == "__main__":
-  Board = CreateBoard() #both index not used
-  StartSquare = 0 
-  FinishSquare = 0
-  PlayAgain = "Y"
-  while PlayAgain == "Y":
-    WhoseTurn = "W"
-    GameOver = False
-    SampleGame = GetTypeOfGame() #task one
-    if ord(SampleGame) >= 97 and ord(SampleGame) <= 122:
-      SampleGame = chr(ord(SampleGame) - 32)
-    InitialiseBoard(Board, SampleGame)
-    while not(GameOver):
-      DisplayBoard(Board)
-      DisplayWhoseTurnItIs(WhoseTurn)
-      MoveIsLegal = False
-      while not(MoveIsLegal):
-        StartSquare, FinishSquare = GetMove(StartSquare, FinishSquare)
-        StartRank = StartSquare % 10
-        StartFile = StartSquare // 10
-        FinishRank = FinishSquare % 10
-        FinishFile = FinishSquare // 10
-        MoveIsLegal = CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
-        if not(MoveIsLegal):
-          print("That is not a legal move - please try again")
-      GameOver = CheckIfGameWillBeWon(Board, FinishRank, FinishFile)
-      MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
-      if GameOver:
-        DisplayWinner(WhoseTurn)
-      if WhoseTurn == "W":
-        WhoseTurn = "B"
-      else:
-        WhoseTurn = "W"
-    PlayAgain = input("Do you want to play again (enter Y for Yes)? ")
-    if ord(PlayAgain) >= 97 and ord(PlayAgain) <= 122:
-      PlayAgain = chr(ord(PlayAgain) - 32)
+  display_menu():
+  value = get_menu_selection()
+  

@@ -1,0 +1,57 @@
+Task 2:
+q1. you get an index error
+q2. you receive the message ' This is not a legal move' and are asked to re enter a move.
+q3. The piece is moved off the board
+q4. Index out of range error
+q5. moving the piece off of the bottom or right of the board both produced index errors,
+	,moving it off the top made the piece disappear. Interestingly moving it off the left
+	generates a pre-set message, telling the user that it isn't a valid move, which would 
+	indicate that there is validation code for that move
+q6. CheckMoveIsLegal():
+
+Task 3:
+q1. GetMove
+
+Task 5:
+q1. The letter that represents the pieces colour and piece type
+q2. MakeMove
+
+Task 6:
+q1. make move 
+
+Task 7:
+q1. DisplayBoard()
+
+Task 8:
+Fixed value: A variable set in code by the programmer, that is never changed or edited in the program|'
+stepper: a variable that is incremented with each loop of a code|'
+Most recent holder: either the latest value gain as input from the user of the variable storing the latest value created when processing|'
+most wanted holder: a variable holding the variable that is most desired by the code, if searching for the highest number in a list, this would be the highest number encountered|'
+gatherer: a variable that holds the total when adding a series of values|'
+transformation: a variable of which its value is created from a fixed calculation of other variables|'sample game'
+follower: a holder for the value stored in another variable before its updated|'
+temporary: a temporary variable holding information for a short time |'temp'
+
+Task 9:
+q1. Passing by value means the variable must be passed into, and then returned from a function to be 
+	edited or used by the function, if they're not returned, the changes made are not permanent. 
+	Things such as number and string values must be passed around this way.
+	
+	Passing by reference mean the variable must be passed into the function, but any changes made
+	are made across the entire program, and are permanent.
+	
+q2. DisplayWhoseTurnItIs(By value)
+	DisplayWinner(By value)
+	CheckIfGameWillBeWon(Ref,Val,Val)
+	DisplayBoard(Ref)
+	CheckRedumMoveIsLegal(ref,Val,Val,Val,Val,Val)
+	CheckSarrumMoveIsLegal(Ref,Val,Val,Val,Val)
+	CheckGisgigirMoveIsLegal(Ref,Val,Val,Val,Val)
+	CheckNabuMoveIsLegal(Ref,Val,Val,Val,Val)
+	CheckMarzazPaniMoveiSlegal(Ref,Val,Val,Val,Val)
+	CheckEtulMoveIsLegal(Ref,Val,Val,Val,Val)
+	CheckMoveIsLegal(Ref,Val,Val,Val,Val,Val)
+	InitialiseBoard(Ref,Val)
+	GetMove(Val,Val)
+	MakeMove(Ref,Val,Val,Val,Val,Val)
+	ConfirmMove(Val,Val)
