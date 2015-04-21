@@ -19,19 +19,19 @@ def DisplayWhoseTurnItIs(WhoseTurn):
   else:
     print("It is Black's turn")
 
-def GetTypeOfGame(): #task one
-    cont = False
-    while cont == False:
-        TypeOfGame = input("Do you want to play the sample game (enter Y for Yes)? ")
-        if TypeOfGame[0].upper() == 'Y':
-            cont = True
-            TypeOfGame = TypeOfGame[0].upper()
-        if TypeOfGame[0].upper() == 'N':
-            cont = True
-            TypeOfGame = TypeOfGame[0].upper()
-        else:
-            print('Please enter Y or N')
-    return TypeOfGame
+##def GetTypeOfGame(): #task one
+##    cont = False
+##    while cont == False:
+##        TypeOfGame = input("Do you want to play the sample game (enter Y for Yes)? ")
+##        if TypeOfGame[0].upper() == 'Y':
+##            cont = True
+##            TypeOfGame = TypeOfGame[0].upper()
+##        if TypeOfGame[0].upper() == 'N':
+##            cont = True
+##            TypeOfGame = TypeOfGame[0].upper()
+##        else:
+##            print('Please enter Y or N')
+##    return TypeOfGame
 
 def DisplayWinner(WhoseTurn):
   if WhoseTurn == "W":
@@ -204,9 +204,12 @@ def GetMove(StartSquare, FinishSquare): # Task 3
     cont = False
     while cont == False:
       try:
-        StartSquare = int(input("Enter coordinates of square containing piece to move (file first): "))
+        StartSquare = int(input("Enter coordinates of square containing piece to move (file first)(-1 to open menu): "))
         temp = StartSquare // 10
-        if temp < 1:
+        if StartSquare == -1:
+          in_game_menu()
+          get_ingame_choice()
+        elif temp < 1:
           print('Please enter both the FILE and RANK ')
         elif ( '0' > str(StartSquare)[:1] > '9' ):
           cont = False
@@ -221,7 +224,7 @@ def GetMove(StartSquare, FinishSquare): # Task 3
     cont = False
     while cont == False:
       try:
-        FinishSquare = int(input("Enter coordinates of square to move piece to (file first): "))
+        FinishSquare = int(input("Enter coordinates of square to move piece to (file first)(-1 to open menu): "))
         temp = FinishSquare // 10
         if temp < 1:
           print('Please enter both the FILE and RANK ')
@@ -313,7 +316,7 @@ def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
   if Print == True:
     print('{0} {1} Takes {2} {3}'.format(PrintPieceColour,PrintPieceType,PrintPieceColour1,PrintPieceType1))
 
-def DisplayMenu():
+def display_menu():
   print('''Main menu.
 1.Start new game
 2.Load existing game
@@ -329,12 +332,12 @@ def get_menu_selection():
   while not cont:
     value = input('Please make your choice: ')
     if value in values:
-      cont = true
+      cont = True
     else:
       print('Please make a valid choice!')
   return value
 
-def play_game():
+def play_game(SampleGame):
   Board = CreateBoard() #0th index not used
   StartSquare = 0 
   FinishSquare = 0
@@ -342,7 +345,7 @@ def play_game():
   while PlayAgain == "Y":
     WhoseTurn = "W"
     GameOver = False
-    SampleGame = GetTypeOfGame() #task one
+    #SampleGame = GetTypeOfGame() #task one
     if ord(SampleGame) >= 97 and ord(SampleGame) <= 122:
       SampleGame = chr(ord(SampleGame) - 32)
     InitialiseBoard(Board, SampleGame)
@@ -372,22 +375,48 @@ def play_game():
       PlayAgain = chr(ord(PlayAgain) - 32)
 
 
-
-
 def make_selection(value):
   if value == '1':
-    function
+    SampleGame = 'N'
+    play_game(SampleGame)
   elif value == '2':
-    function
+    print('PLACEHOLDER')
   elif value == '3':
-    play_game()
+    SampleGame = 'Y'
+    play_game(SampleGame)
   elif value == '4':
-    function
+    print('PLACEHOLDER')
   elif value == '5':
-    function
+    print('PLACEHOLDER')
   elif value == '6':
-    function
+    print('PLACEHOLDER')
 
+def in_game_menu():
+  print('''Menu:
+1. Save game
+2. Quit game
+3. Return to game
+''')
+
+def get_ingame_choice():
+  cont = False
+  values = ['1','2','3']
+  while not cont:
+    value = input('Please enter selection: ')
+    if value in values:
+      perform_choice(value)
+      cont = True
+    else:
+      print('Please choose a valid number!')
+
+def perform_choice(value):
+  if value == '1':
+    print('PLACEHOLDER')
+  if value == '2':
+    print('PLACEHOLDER')
+  if value == '3':
+    print('PLACEHOLDER')
+  
 if __name__ == "__main__":
   display_menu()
   value = get_menu_selection()
