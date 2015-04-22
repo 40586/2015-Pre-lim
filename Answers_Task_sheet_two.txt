@@ -6,3 +6,9 @@ q1. Display_Menu() - This will be called in the main program to print out the ma
 
 Task 12:
 q1. GetMove
+
+Task 13:
+q1. display_menu, in_game_menu, get_ingame_choice, perform_choice, make_selection, get_menu_selection, 
+
+Task 14:
+q1. Refactoring is when you don't change what the code does, but change it's layout and structure.

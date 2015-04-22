@@ -160,44 +160,50 @@ def CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseT
         MoveIsLegal = CheckEtluMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile)
   return MoveIsLegal
 
-def InitialiseBoard(Board, SampleGame):
-  if SampleGame == "Y":
-    for RankNo in range(1, BOARDDIMENSION + 1):
-      for FileNo in range(1, BOARDDIMENSION + 1):
-        Board[RankNo][FileNo] = "  "
-    Board[1][2] = "BG"
-    Board[1][4] = "BS"
-    Board[1][8] = "WG"
-    Board[2][1] = "WR"
-    Board[3][1] = "WS"
-    Board[3][2] = "BE"
-    Board[3][8] = "BE"
-    Board[6][8] = "BR"
+def InitialiseBoard(Board, SampleGame): # Task 14
+  if SampleGame == 'Y':
+    initialise_sample_board(Board)
   else:
-    for RankNo in range(1, BOARDDIMENSION + 1):
-      for FileNo in range(1, BOARDDIMENSION + 1):
-        if RankNo == 2:
-          Board[RankNo][FileNo] = "BR"
-        elif RankNo == 7:
-          Board[RankNo][FileNo] = "WR"
-        elif RankNo == 1 or RankNo == 8:
-          if RankNo == 1:
-            Board[RankNo][FileNo] = "B"
-          if RankNo == 8:
-            Board[RankNo][FileNo] = "W"
-          if FileNo == 1 or FileNo == 8:
-            Board[RankNo][FileNo] = Board[RankNo][FileNo] + "G"
-          elif FileNo == 2 or FileNo == 7:
-            Board[RankNo][FileNo] = Board[RankNo][FileNo] + "E"
-          elif FileNo == 3 or FileNo == 6:
-            Board[RankNo][FileNo] = Board[RankNo][FileNo] + "N"
-          elif FileNo == 4:
-            Board[RankNo][FileNo] = Board[RankNo][FileNo] + "M"
-          elif FileNo == 5:
-            Board[RankNo][FileNo] = Board[RankNo][FileNo] + "S"
-        else:
-          Board[RankNo][FileNo] = "  "    
-                    
+    initialise_new_board(Board)
+
+def initialise_new_board(Board): # Task 14
+  for RankNo in range(1, BOARDDIMENSION + 1):
+    for FileNo in range(1, BOARDDIMENSION + 1):
+      if RankNo == 2:
+        Board[RankNo][FileNo] = "BR"
+      elif RankNo == 7:
+        Board[RankNo][FileNo] = "WR"
+      elif RankNo == 1 or RankNo == 8:
+        if RankNo == 1:
+          Board[RankNo][FileNo] = "B"
+        if RankNo == 8:
+          Board[RankNo][FileNo] = "W"
+        if FileNo == 1 or FileNo == 8:
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "G"
+        elif FileNo == 2 or FileNo == 7:
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "E"
+        elif FileNo == 3 or FileNo == 6:
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "N"
+        elif FileNo == 4:
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "M"
+        elif FileNo == 5:
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "S"
+      else:
+        Board[RankNo][FileNo] = "  "
+
+def initialise_sample_board(Board): # Task 14
+  for RankNo in range(1, BOARDDIMENSION + 1):
+    for FileNo in range(1, BOARDDIMENSION + 1):
+      Board[RankNo][FileNo] = "  "
+  Board[1][2] = "BG"
+  Board[1][4] = "BS"
+  Board[1][8] = "WG"
+  Board[2][1] = "WR"
+  Board[3][1] = "WS"
+  Board[3][2] = "BE"
+  Board[3][8] = "BE"
+  Board[6][8] = "BR"
+              
 def GetMove(StartSquare, FinishSquare): # Task 3
   confirm = False # Task 4
   while confirm == False:
@@ -389,7 +395,7 @@ def make_selection(value):
   elif value == '5':
     print('PLACEHOLDER')
   elif value == '6':
-    print('PLACEHOLDER')
+    exit()
 
 def in_game_menu():
   print('''Menu:
@@ -413,9 +419,9 @@ def perform_choice(value):
   if value == '1':
     print('PLACEHOLDER')
   if value == '2':
-    print('PLACEHOLDER')
+    pass
   if value == '3':
-    print('PLACEHOLDER')
+    print()
   
 if __name__ == "__main__":
   display_menu()
