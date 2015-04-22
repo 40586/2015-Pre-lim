@@ -205,16 +205,21 @@ def initialise_sample_board(Board): # Task 14
   Board[6][8] = "BR"
               
 def GetMove(StartSquare, FinishSquare): # Task 3
+  temp = False
   confirm = False # Task 4
   while confirm == False:
     cont = False
-    while cont == False:
+    while not cont:
       try:
         StartSquare = int(input("Enter coordinates of square containing piece to move (file first)(-1 to open menu): "))
         temp = StartSquare // 10
         if StartSquare == -1:
-          in_game_menu()
+          in_game_menu() #Task 12 edits
           get_ingame_choice()
+          ## temp boo from get
+          ## cont= temp
+          ## at cont reset cont = temp
+          ## temp is returned
         elif temp < 1:
           print('Please enter both the FILE and RANK ')
         elif ( '0' > str(StartSquare)[:1] > '9' ):
@@ -228,11 +233,14 @@ def GetMove(StartSquare, FinishSquare): # Task 3
       except ValueError:
         print('Please enter a number')
     cont = False
-    while cont == False:
+    while not cont:
       try:
         FinishSquare = int(input("Enter coordinates of square to move piece to (file first)(-1 to open menu): "))
         temp = FinishSquare // 10
-        if temp < 1:
+        if StartSquare == -1:
+          in_game_menu()
+          get_ingame_choice() #Task 12 edits
+        elif temp < 1:
           print('Please enter both the FILE and RANK ')
         elif ( '0' > str(FinishSquare)[:1] > '9' ):
           cont = False
