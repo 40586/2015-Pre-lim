@@ -118,6 +118,8 @@ def CheckMarzazPaniMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFi
   CheckMarzazPaniMoveIsLegal = False
   if (abs(FinishFile - StartFile) == 1 and abs(FinishRank - StartRank) == 0) or (abs(FinishFile - StartFile) == 0 and abs(FinishRank - StartRank) ==1):
     CheckMarzazPaniMoveIsLegal = True
+  if (abs(FinishFile - StartFile) == 1 and abs(FinishRank - StartRank) == 1):
+    CheckMarzazPaniMoveIsLegal = True
   return CheckMarzazPaniMoveIsLegal
 
 def CheckEtluMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile):
@@ -206,21 +208,19 @@ def initialise_sample_board(Board): # Task 14
               
 def GetMove(StartSquare, FinishSquare): # Task 3
   temp = False
+  surr = False
   confirm = False # Task 4
   while confirm == False:
     cont = False
     while not cont:
       try:
         StartSquare = int(input("Enter coordinates of square containing piece to move (file first)(-1 to open menu): "))
-        temp = StartSquare // 10
+        temp1 = StartSquare // 10
         if StartSquare == -1:
           in_game_menu() #Task 12 edits
-          get_ingame_choice()
-          ## temp boo from get
-          ## cont= temp
-          ## at cont reset cont = temp
-          ## temp is returned
-        elif temp < 1:
+          temp, surr = get_ingame_choice()
+          cont = temp
+        elif temp1 < 1:
           print('Please enter both the FILE and RANK ')
         elif ( '0' > str(StartSquare)[:1] > '9' ):
           cont = False
@@ -232,15 +232,16 @@ def GetMove(StartSquare, FinishSquare): # Task 3
           cont = True
       except ValueError:
         print('Please enter a number')
-    cont = False
+    cont = temp
     while not cont:
       try:
         FinishSquare = int(input("Enter coordinates of square to move piece to (file first)(-1 to open menu): "))
-        temp = FinishSquare // 10
+        temp1 = FinishSquare // 10
         if StartSquare == -1:
           in_game_menu()
-          get_ingame_choice() #Task 12 edits
-        elif temp < 1:
+          temp , surr = get_ingame_choice() #Task 12 edits
+          cont = temp
+        elif temp1 < 1:
           print('Please enter both the FILE and RANK ')
         elif ( '0' > str(FinishSquare)[:1] > '9' ):
           cont = False
@@ -253,7 +254,9 @@ def GetMove(StartSquare, FinishSquare): # Task 3
       except ValueError:
         print('Please enter a number')
       confirm = ConfirmMove(StartSquare, FinishSquare)
-  return StartSquare, FinishSquare
+    if temp == True:
+      confirm = True
+  return surr, temp, StartSquare, FinishSquare ###
 
 def MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn):
   if Board[FinishRank][FinishFile] !=' ':
@@ -331,7 +334,9 @@ def GetPieceName(Board,StartRank,StartFile,FinishRank,FinishFile):
     print('{0} {1} Takes {2} {3}'.format(PrintPieceColour,PrintPieceType,PrintPieceColour1,PrintPieceType1))
 
 def display_menu():
-  print('''Main menu.
+  print('''
+
+Main menu.
 1.Start new game
 2.Load existing game
 3.Play sample game
@@ -352,6 +357,8 @@ def get_menu_selection():
   return value
 
 def play_game(SampleGame):
+  temp = False
+  surr = False
   Board = CreateBoard() #0th index not used
   StartSquare = 0 
   FinishSquare = 0
@@ -368,71 +375,98 @@ def play_game(SampleGame):
       DisplayWhoseTurnItIs(WhoseTurn)
       MoveIsLegal = False
       while not(MoveIsLegal):
-        StartSquare, FinishSquare = GetMove(StartSquare, FinishSquare)
+        surr, temp, StartSquare, FinishSquare = GetMove(StartSquare, FinishSquare) ###
         StartRank = StartSquare % 10
         StartFile = StartSquare // 10
         FinishRank = FinishSquare % 10
         FinishFile = FinishSquare // 10
-        MoveIsLegal = CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
+        MoveIsLegal = temp
+        if not temp:
+          MoveIsLegal = CheckMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
         if not(MoveIsLegal):
           print("That is not a legal move - please try again")
       GameOver = CheckIfGameWillBeWon(Board, FinishRank, FinishFile)
-      MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
-      if GameOver:
+      if not temp:
+        MakeMove(Board, StartRank, StartFile, FinishRank, FinishFile, WhoseTurn)
+      if surr == True:
+        GameOver = True
         DisplayWinner(WhoseTurn)
-      if WhoseTurn == "W":
+      if temp == True:
+        GameOver = True
+        PlayAgain = 'N'
+      elif GameOver:
+        DisplayWinner(WhoseTurn)
+      elif WhoseTurn == "W":
         WhoseTurn = "B"
       else:
         WhoseTurn = "W"
-    PlayAgain = input("Do you want to play again (enter Y for Yes)? ")
-    if ord(PlayAgain) >= 97 and ord(PlayAgain) <= 122:
-      PlayAgain = chr(ord(PlayAgain) - 32)
+    if surr == True:
+      PlayAgain = input("Do you want to play again (enter Y for Yes)? ")
+      if ord(PlayAgain) >= 97 and ord(PlayAgain) <= 122:
+        PlayAgain = chr(ord(PlayAgain) - 32)
+        
+  return temp
 
 
 def make_selection(value):
   if value == '1':
     SampleGame = 'N'
-    play_game(SampleGame)
+    temp = play_game(SampleGame)
   elif value == '2':
     print('PLACEHOLDER')
   elif value == '3':
     SampleGame = 'Y'
-    play_game(SampleGame)
+    temp = play_game(SampleGame)
   elif value == '4':
     print('PLACEHOLDER')
   elif value == '5':
     print('PLACEHOLDER')
   elif value == '6':
     exit()
+  return temp
 
 def in_game_menu():
   print('''Menu:
 1. Save game
 2. Quit game
 3. Return to game
+4. Surrender
 ''')
 
 def get_ingame_choice():
   cont = False
-  values = ['1','2','3']
+  values = ['1','2','3', '4']
   while not cont:
     value = input('Please enter selection: ')
     if value in values:
-      perform_choice(value)
+      temp, surr = perform_choice(value)
       cont = True
     else:
       print('Please choose a valid number!')
+  return temp, surr
+    
 
 def perform_choice(value):
   if value == '1':
     print('PLACEHOLDER')
+    temp = False
+    surr = False
   if value == '2':
-    pass
+    temp = True
+    surr = False
   if value == '3':
     print()
+    temp = False
+    surr = False
+  if value == '4':
+    surr = True
+    temp = True
+  return temp, surr
   
 if __name__ == "__main__":
-  display_menu()
-  value = get_menu_selection()
-  make_selection(value)
+  temp = False
+  while not temp:
+    display_menu()
+    value = get_menu_selection()
+    temp1 = make_selection(value)
   
