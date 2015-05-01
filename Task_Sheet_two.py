@@ -72,6 +72,8 @@ def CheckRedumMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, C
       CheckRedumMoveIsLegal = True
     elif abs(FinishFile - StartFile) == 1 and Board[FinishRank][FinishFile][0] == "W":
       CheckRedumMoveIsLegal = True
+  range_check = ['17','27','37','47','57','67','77','87','12','22','32','42','52','62','72','82']
+  #elif StartRank+StartFile in range_check:
   return CheckRedumMoveIsLegal
 
 def CheckSarrumMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile):
@@ -108,9 +110,10 @@ def CheckGisgigirMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile
           GisgigirMoveIsLegal = False
   return GisgigirMoveIsLegal
 
-def CheckNabuMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile):
+def CheckNabuMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile): #Task 17
   CheckNabuMoveIsLegal = False
-  if abs(FinishFile - StartFile) == 1 and abs(FinishRank - StartRank) == 1:
+  check_move = [1,2,3,4,5,6,7,8]
+  if abs(FinishFile - StartFile) in check_move and abs(FinishRank - StartRank) in check_move:
     CheckNabuMoveIsLegal = True
   return CheckNabuMoveIsLegal
 
@@ -122,9 +125,11 @@ def CheckMarzazPaniMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFi
     CheckMarzazPaniMoveIsLegal = True
   return CheckMarzazPaniMoveIsLegal
 
-def CheckEtluMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile):
+def CheckEtluMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile): #Issue here i don't understand, some move that fit this dont work
   CheckEtluMoveIsLegal = False
-  if (abs(FinishFile - StartFile) == 2 and abs(FinishRank - StartRank) == 0) or (abs(FinishFile - StartFile) == 0 and abs(FinishRank - StartRank) == 2):
+  if (abs(FinishFile - StartFile) == 2 and abs(FinishRank - StartRank) == 1) or (abs(FinishFile - StartFile) == 1 and abs(FinishRank - StartRank) == 2):
+    CheckEtluMoveIsLegal = True
+  elif (abs(FinishFile - StartFile) == 1 and abs(FinishRank - StartRank) == 2) or (abs(FinishFile - StartFile) == 2 and abs(FinishRank - StartRank) == 1):
     CheckEtluMoveIsLegal = True
   return CheckEtluMoveIsLegal
 
