@@ -72,8 +72,12 @@ def CheckRedumMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile, C
       CheckRedumMoveIsLegal = True
     elif abs(FinishFile - StartFile) == 1 and Board[FinishRank][FinishFile][0] == "W":
       CheckRedumMoveIsLegal = True
-  range_check = ['17','27','37','47','57','67','77','87','12','22','32','42','52','62','72','82']
-  #elif StartRank+StartFile in range_check:
+  if ColourOfPiece == 'W':
+    if StartRank == BOARDDIMENSION - 1:
+      CheckRedumMoveIsLegal = True
+  elif ColourOfPiece =='B':
+    if StartRank == 2:
+      CheckRedumMoveIsLegal = True
   return CheckRedumMoveIsLegal
 
 def CheckSarrumMoveIsLegal(Board, StartRank, StartFile, FinishRank, FinishFile):
@@ -191,9 +195,13 @@ def initialise_new_board(Board): # Task 14
           Board[RankNo][FileNo] = Board[RankNo][FileNo] + "E"
         elif FileNo == 3 or FileNo == 6:
           Board[RankNo][FileNo] = Board[RankNo][FileNo] + "N"
-        elif FileNo == 4:
+        elif FileNo == 4 and Board[RankNo][FileNo] == 'W':
           Board[RankNo][FileNo] = Board[RankNo][FileNo] + "M"
-        elif FileNo == 5:
+        elif FileNo == 5 and Board[RankNo][FileNo] == 'W':
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "S"
+        elif FileNo == 5 and Board[RankNo][FileNo] == 'B':
+          Board[RankNo][FileNo] = Board[RankNo][FileNo] + "M"
+        elif FileNo == 4 and Board[RankNo][FileNo] == 'B':
           Board[RankNo][FileNo] = Board[RankNo][FileNo] + "S"
       else:
         Board[RankNo][FileNo] = "  "
@@ -414,6 +422,7 @@ def play_game(SampleGame):
 
 
 def make_selection(value):
+  temp = '' 
   if value == '1':
     SampleGame = 'N'
     temp = play_game(SampleGame)
